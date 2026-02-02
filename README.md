@@ -4,23 +4,48 @@ This repository contains a web-based system for running computational experiment
 
 The system is composed of three main components:
 
-- A Streamlit web application for input, configuration, and visualization
-- A worker service that executes background computation jobs
-- A SQL database used to store jobs, configurations, and results
-
-All components are containerized using Docker to ensure consistent execution across environments.
+- A **Streamlit web app** for input, configuration, and visualization  
+- A **worker service** that executes optimization jobs  
+- A **SQL database** that stores jobs and results  
 
 ---
 
-ARCHITECTURE
+## 🏗️ Architecture
 
-User / Browser
-      |
-      v
-Streamlit App  <-->  SQL Database  <-->  Worker Service
+```mermaid
+flowchart TD
 
-The Streamlit application submits jobs to the database and periodically polls for updates.
-The worker service polls the database for pending jobs, executes them, and writes results back.
+    %% Nodes
+    U[User / Browser]
+
+    A[Streamlit App]
+
+    W[Worker Service]
+
+    DB[(SQL Database)]
+
+    %% User flow
+    U --> A
+
+    %% App ↔ Database
+    A -->|"Submit Job"| DB
+    A -->|"Poll Status"| DB
+    A -->|"Fetch Results"| DB
+
+    %% Worker ↔ Database
+    W -->|"Poll Pending Jobs"| DB
+    W -->|"Write Results"| DB
+
+```
+
+**Flow:**
+
+1. The user interacts with the **Streamlit app** in the browser.  
+2. The app creates a **job** in the SQL database.  
+3. The **worker** polls the database for pending jobs, runs the solver, and writes back results.  
+4. The app periodically polls the database and displays the finished solution.
+
+All components are containerized using Docker to ensure consistent execution across environments.
 
 ---
 
@@ -82,8 +107,3 @@ AI DISCLOSURE
 
 This README file was generated with the assistance of an AI-based language model and reviewed by the author.
 
----
-
-INTENDED USE
-
-This repository is intended for technical experimentation, development, and educational use.
