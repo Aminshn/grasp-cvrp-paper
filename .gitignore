@@ -1,0 +1,38 @@
+# Virtual environments
+.venv/
+env/
+venv/
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.mypy_cache
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Streamlit
+.streamlit/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# VSCode
+.vscode/
+
+# Pytest
+.pytest_cache/
+
+# IDE / editor folders
+.idea/
+
+# Local and temporary files
+playground.ipynb
+
+**/lib/

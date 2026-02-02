@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    image: aminshn/cvrp_streamlit_webapp:app-latest
+    ports:
+      - "80:8502"
+    environment:
+      - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
+      - APP_ACCESS_CODE=${APP_ACCESS_CODE}
+    restart: always
+
+  worker:
+    image: aminshn/cvrp_streamlit_webapp:worker-latest
+    environment:
+      - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
+    restart: always

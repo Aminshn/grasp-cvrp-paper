@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # ------------------------------------------------------------------
+  # SQL SERVER SERVICE (mssql)
+  # ------------------------------------------------------------------
+  mssql:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: sqlserver_instance
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Seminar2025!
+      - MSSQL_PID=Developer
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+    healthcheck:
+      test: ["CMD-SHELL", "pidof sqlservr > /dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  # ------------------------------------------------------------------
+  # APP SERVICE (Streamlit)
+  # ------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: streamlit_app/Dockerfile.dev
+    ports:
+      - "8502:8502"
+    env_file:
+      - .env
+    volumes:
+      - ./streamlit_app:/app/streamlit_app
+      - ./cvrp_streamlit:/app/cvrp_streamlit
+      - ./benchmarks:/app/benchmarks
+    restart: always
+    depends_on:
+      mssql:
+        condition: service_healthy
+
+  # ------------------------------------------------------------------
+  # WORKER SERVICE (Solver)
+  # ------------------------------------------------------------------
+  worker:
+    build:
+      context: .
+      dockerfile: solver/Dockerfile.dev
+    env_file:
+      - .env
+    volumes:
+      - ./solver:/app/solver
+      - ./cvrp_streamlit:/app/cvrp_streamlit
+      - ./benchmarks:/app/benchmarks
+    restart: always
+    depends_on:
+      mssql:
+        condition: service_healthy
+
+volumes:
+  mssql_data:
