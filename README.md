@@ -50,26 +50,28 @@ All components are containerized using Docker to ensure consistent execution acr
 ---
 
 REPOSITORY STRUCTURE
-
-.env.example               Example environment variables
-LICENSE
-README.txt                Project documentation
-benchmarks/               Benchmark and input instances
-  └── CMT/
-cvrp_streamlit/            Core execution and helper modules
-docker-compose.yml         Container orchestration (standard setup)
-docker-compose.dev.yml     Container orchestration (development setup)
-queries/
-  └── create_tables.sql    SQL schema for jobs and results
-requirements.txt           Python dependencies
-solver/
-  ├── Dockerfile           Worker container definition
-  └── worker.py            Background worker process
-streamlit_app/
-  ├── Dockerfile           Streamlit application container
-  ├── app.py               Streamlit entry point
-  ├── ui.py                Layout and UI helpers
-  └── components/          Reusable UI components
+```text
+.
+├── .env.example               # Example environment variables
+├── LICENSE
+├── README.txt                 # Project documentation
+├── benchmarks/                # Benchmark and input instances
+│   └── CMT/
+├── cvrp_streamlit/            # Core execution and helper modules
+├── docker-compose.yml         # Container orchestration (standard setup)
+├── docker-compose.dev.yml     # Container orchestration (development setup)
+├── queries/
+│   └── create_tables.sql      # SQL schema for jobs and results
+├── requirements.txt           # Python dependencies
+├── solver/
+│   ├── Dockerfile             # Worker container definition
+│   └── worker.py              # Background worker process
+└── streamlit_app/
+    ├── Dockerfile             # Streamlit application container
+    ├── app.py                 # Streamlit entry point
+    ├── ui.py                  # Layout and UI helpers
+    └── components/            # Reusable UI components
+```
 
 ---
 
@@ -89,11 +91,13 @@ Development mode (live code):
 
 docker compose -f docker-compose.dev.yml up --build
 
+
 Standard deployment:
 
 docker compose up -d
 
----
+
+----------------------------------------
 
 LOCAL (NON-DOCKER) EXECUTION
 
