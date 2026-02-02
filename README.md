@@ -87,23 +87,39 @@ Required variables:
 
 RUNNING WITH DOCKER
 
-Development mode (live code):
+Development mode (live code)
 
-docker compose -f docker-compose.dev.yml up --build
+   docker compose -f docker-compose.dev.yml up --build
 
 
-Standard deployment:
+Standard deployment
 
-docker compose up -d
-
+   docker compose up -d
 
 ----------------------------------------
 
 LOCAL (NON-DOCKER) EXECUTION
 
-pip install -r requirements.txt
-python solver/worker.py
-streamlit run streamlit_app/app.py --server.port 8502
+Prerequisites
+- A running SQL database with the required schema applied
+- Database connection string available as an environment variable
+
+1. Install dependencies
+
+   pip install -r requirements.txt
+
+2. Set environment variables
+
+   DB_CONNECTION_STRING="your-connection-string"
+   APP_ACCESS_CODE="your-access-code"
+
+3. Start the worker
+
+   python solver/worker.py
+
+4. Start the Streamlit application
+
+   streamlit run streamlit_app/app.py --server.port 8502
 
 ---
 
